@@ -57,6 +57,32 @@ class ProductController {
     return result;
   }
 
+  async updateProductQuantity(id, productQuantity) {
+    const result = await productModel.findByIdAndUpdate(
+      id,
+      { productQuantity },
+      {
+        new: true,
+      }
+    );
+    return result;
+  }
+
+  async updateProductStock(idArry) {
+    const result = await productModel.updateMany(
+      { _id: { $in: idArry } },
+      {
+        $inc: {
+          productQuantity: -1,
+        },
+      },
+      {
+        multi: true,
+      }
+    );
+    return result;
+  }
+
   async deleteProduct(id) {
     const result = await productModel.findByIdAndDelete(id);
     return result;
