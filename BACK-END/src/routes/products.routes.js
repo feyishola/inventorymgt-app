@@ -3,7 +3,8 @@ const api = require("express").Router();
 const verifyUser = require("../middleware/verification.middleware");
 const authorization = require("../middleware/authorization.middleware");
 const qrCode = require("qrcode");
-// const sharp = require("sharp");
+const uploadImageMiddleware = require("../middleware/uploadimage.middleware");
+const handleImageUpload = require("../middleware/handleimageupload.middleware");
 
 module.exports = () => {
   api.get(
@@ -61,29 +62,34 @@ module.exports = () => {
 
   api.post(
     "/create-products",
-    [verifyUser, authorization(["Admin"])],
+    [
+      verifyUser,
+      authorization(["Admin"]),
+      uploadImageMiddleware,
+      handleImageUpload,
+    ],
     async (req, res) => {
+      const {
+        productName,
+        productAmount,
+        productCategory,
+        productImg,
+        productQrCode,
+        productQuantity,
+        productDesc,
+        productionDate,
+        expiryDate,
+      } = req.body;
+      // req.body.productImg = req.productImg;
       try {
-        const {
-          productName,
-          productAmount,
-          productCategory,
-          productDesc,
-          productImg,
-          productQrCode,
-          productQuantity,
-          productionDate,
-          expiryDate,
-        } = req.body;
-
         const response = await ProductController.createProducts(
           productName,
           productAmount,
           productCategory,
-          productDesc,
           productImg,
           productQrCode,
           productQuantity,
+          productDesc,
           productionDate,
           expiryDate
         );

@@ -109,7 +109,7 @@ module.exports = () => {
             const token = jwt.sign(
               { email, userRole: user.userRole },
               process.env.SECRET_KEY,
-              { expiresIn: "1h" }
+              { expiresIn: "48h" }
             );
             res.status(200).json({
               response: true,

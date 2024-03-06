@@ -1,34 +1,34 @@
 const productModel = require("../model/products.model");
-const uploadImageToFireBase = require("../utils/firebase.config");
+const { uploadImageToFireBase } = require("../utils/firebase.config");
 
 class ProductController {
   async createProducts(
     productName,
     productAmount,
     productCategory,
-    productDesc,
     productImg,
     productQrCode,
     productQuantity,
+    productDesc,
     productionDate,
     expiryDate
   ) {
     // convert image to buffer base64 and saves it to firebase in return a url which is saved on mongodb.
-    const imageBuffer = Buffer.from(productImg, "base64");
-    const productImgUrl = await uploadImageToFireBase(imageBuffer, productImg);
+    // const imageBuffer = Buffer.from(productImg, "base64");
+    // const productImgUrl = await uploadImageToFireBase(imageBuffer, productImg);
 
     const newProduct = new productModel({
       productName,
       productAmount,
       productCategory,
-      productDesc,
-      productImg: productImgUrl,
+      productImg,
       productQrCode,
       productQuantity,
+      productDesc,
       productionDate,
       expiryDate,
     });
-
+    // console.log({ data });
     const result = await newProduct.save();
     return result;
   }
