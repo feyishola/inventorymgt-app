@@ -1,5 +1,4 @@
 const productModel = require("../model/products.model");
-const { uploadImageToFireBase } = require("../utils/firebase.config");
 
 class ProductController {
   async createProducts(
@@ -63,21 +62,6 @@ class ProductController {
       { productQuantity },
       {
         new: true,
-      }
-    );
-    return result;
-  }
-
-  async updateProductStock(idArry) {
-    const result = await productModel.updateMany(
-      { _id: { $in: idArry } },
-      {
-        $inc: {
-          productQuantity: -1,
-        },
-      },
-      {
-        multi: true,
       }
     );
     return result;

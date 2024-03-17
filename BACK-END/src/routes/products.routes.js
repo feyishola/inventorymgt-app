@@ -144,6 +144,7 @@ module.exports = () => {
         });
       }
       const totalCost = product.productAmount * quantity;
+      // Products successfully scanned should be pushed into an array
       res
         .status(200)
         .json({ response: true, payload: { productId, quantity, totalCost } });
@@ -155,6 +156,7 @@ module.exports = () => {
   // confirm-transaction
 
   api.post("/confirm-transaction", async (req, res) => {
+    //The ScannedArr of products above should be sent here for processing
     const { productArr } = req.body;
     try {
       const worker = new Worker(

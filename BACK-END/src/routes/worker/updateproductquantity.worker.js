@@ -12,7 +12,7 @@ require("../../connections/mongodb.con")();
           throw new Error(`Product with productId ${productId} not found`);
         }
         const presentQuantity = product.productQuantity - quantity;
-        // console.log(product.productName, product.presentQuantity);
+
         await productController.updateProductQuantity(
           productId,
           (productQuantity = presentQuantity)
