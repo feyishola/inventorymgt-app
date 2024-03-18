@@ -9,7 +9,7 @@ const { Worker } = require("worker_threads");
 
 module.exports = () => {
   api.get(
-    "/:id",
+    "/single/:id",
     // [verifyUser, authorization(["Admin", "Regular"])],
     async (req, res) => {
       try {
@@ -160,23 +160,43 @@ module.exports = () => {
     const { productArr } = req.body;
     try {
       const worker = new Worker(
-        __dirname + "/worker/updateproductquantity.worker.js",
+        __dirname + "/workers/updateproductquantity.worker.js",
         {
           workerData: { productArr },
         }
       );
 
       worker.on("message", (message) => {
-        if (message.response.status) {
-          res
-            .status(200)
-            .json({ response: true, payload: message.response.payload });
+        if (message.status) {
+          res.status(200).json({ response: true, payload: message.payload });
         } else {
           res.status(500).json({ response: false, payload: "Error occurred" });
         }
       });
     } catch (error) {
-      console.error("Error creating worker:", error);
+      res.status(500).json({ response: false, payload: error.message });
+    }
+  });
+
+  // route that calculates the inventory monetary worth.
+
+  api.get("/inventoryvalue", async (req, res) => {
+    try {
+      const worker = new Worker(
+        __dirname + "/workers/inventoryvalue.worker.js"
+      );
+
+      worker.on("message", (message) => {
+        if (message.status) {
+          res.status(200).json({ response: true, payload: message.payload });
+        } else {
+          res.status(400).json({
+            response: false,
+            payload: "Error occured from inventoryvalue worker",
+          });
+        }
+      });
+    } catch (error) {
       res.status(500).json({ response: false, payload: error.message });
     }
   });

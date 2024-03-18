@@ -8,18 +8,22 @@ const authorization = require("../middleware/authorization.middleware");
 module.exports = () => {
   const api = Router();
 
-  api.get("/", [verifyUser, authorization(["Admin"])], async (req, res) => {
-    try {
-      const response = await UserController.getUsers();
-      res.status(200).json({ response: true, payload: response });
-    } catch (error) {
-      res.status(500).json({ response: false, payload: error.message });
+  api.get(
+    "/",
+    // [verifyUser, authorization(["Admin"])],
+    async (req, res) => {
+      try {
+        const response = await UserController.getUsers();
+        res.status(200).json({ response: true, payload: response });
+      } catch (error) {
+        res.status(500).json({ response: false, payload: error.message });
+      }
     }
-  });
+  );
 
   api.get(
     "/:id",
-    [verifyUser, authorization(["Admin", "Regular"])],
+    // [verifyUser, authorization(["Admin", "Regular"])],
     async (req, res) => {
       try {
         const id = req.params.id;

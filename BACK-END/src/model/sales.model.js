@@ -6,6 +6,7 @@ const { Schema, model } = mongoose;
 
 const salesSchema = new Schema({
   // productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  salesPersonId: { type: Schema.Types.ObjectId, ref: "users", required: true },
   productName: { type: String, required: true },
   quantitySold: { type: Number, required: true },
   salesPrice: { type: Number, required: true },

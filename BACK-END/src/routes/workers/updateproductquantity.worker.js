@@ -18,12 +18,12 @@ require("../../connections/mongodb.con")();
           (productQuantity = presentQuantity)
         );
       }
-      return { status: true, payload: "Stock Successfully Updated" };
+      return "Stock Successfully Updated";
     } catch (error) {
       return { status: false, payload: error.message };
     }
   }
 
   const result = await updateProductQuantities(workerData.productArr);
-  parentPort.postMessage({ response: result });
+  parentPort.postMessage({ status: true, payload: result });
 })();
