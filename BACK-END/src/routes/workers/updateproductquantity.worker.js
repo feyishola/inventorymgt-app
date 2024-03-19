@@ -15,7 +15,7 @@ require("../../connections/mongodb.con")();
 
         await productController.updateProductQuantity(
           productId,
-          (productQuantity = presentQuantity)
+          presentQuantity
         );
       }
       return "Stock Successfully Updated";
