@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
-const inventSchema = new Schema({
+const userSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   img: { type: String, default: "something.jpeg" },
@@ -12,5 +12,5 @@ const inventSchema = new Schema({
   userRole: { type: String, enum: ["Admin", "Regular"], default: "Regular" },
 });
 
-const inventModel = model("users", inventSchema);
-module.exports = inventModel;
+const userModel = model("users", userSchema);
+module.exports = userModel;

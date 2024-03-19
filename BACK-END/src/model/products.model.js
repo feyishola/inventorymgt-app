@@ -7,6 +7,9 @@ const { Schema, model } = mongoose;
 const productSchema = new Schema({
   productName: { type: String, required: true },
   productAmount: { type: Number, required: true },
+  initialStockQuantity: { type: Number, required: true },
+  currentStockQuantity: { type: Number, required: true },
+  lastRestockDate: { type: Date },
   productCategory: { type: String, required: true },
   productDesc: { type: String },
   productImg: { type: String, required: true },
