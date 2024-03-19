@@ -28,6 +28,7 @@ module.exports = () => {
     async (req, res) => {
       try {
         const response = await ProductController.getProducts();
+
         res.status(200).json({ response: true, payload: response });
       } catch (error) {
         res.status(500).json({ response: false, payload: error.message });
@@ -47,6 +48,8 @@ module.exports = () => {
       const {
         productName,
         productAmount,
+        initialStockQuantity,
+        currentStockQuantity,
         productCategory,
         productImg,
         productQrCode,
@@ -60,6 +63,8 @@ module.exports = () => {
         const response = await ProductController.createProducts(
           productName,
           productAmount,
+          initialStockQuantity,
+          currentStockQuantity,
           productCategory,
           productImg,
           productQrCode,
@@ -203,7 +208,7 @@ module.exports = () => {
 
   api.delete(
     "/delete-product/:id",
-    [verifyUser, authorization(["Admin"])],
+    // [verifyUser, authorization(["Admin"])],
     async (req, res) => {
       try {
         const id = req.params.id;

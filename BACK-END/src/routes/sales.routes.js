@@ -24,13 +24,30 @@ module.exports = () => {
     }
   );
 
+  // cogs sold so far and the goods list
+
   api.get(
     "/records",
     //    [verifyUser, authorization(["Admin"])],
     async (req, res) => {
       try {
         const salesRecord = await salesController.getAllSalesRecords();
-        res.status(200).json({ response: true, payload: salesRecord });
+
+        const worker = new Worker(__dirname + "/workers/cogssofar.worker.js");
+
+        worker.on("message", (message) => {
+          if (message.status) {
+            res.status(200).json({
+              response: true,
+              payload: { worth: message.payload, salesRecord },
+            });
+          } else {
+            res.status(400).json({
+              response: false,
+              payload: "Error occured getting all sales records",
+            });
+          }
+        });
       } catch (error) {
         res.status(500).json({ response: false, payload: error.message });
       }
@@ -91,7 +108,7 @@ module.exports = () => {
     }
   );
 
-  // cost of goods sold(cogs) at choosing interval
+  // cost of goods sold(cogs) at choosing interval and list
 
   api.post(
     "/cogsalesinterval",
@@ -99,6 +116,11 @@ module.exports = () => {
     async (req, res) => {
       try {
         let { startDate, endDate } = req.body;
+
+        const list = await salesController.getSalesRecordsAtIntervals(
+          startDate,
+          endDate
+        );
 
         const worker = new Worker(
           __dirname + "/workers/cogsSalesInterval.worker.js",
@@ -109,7 +131,10 @@ module.exports = () => {
 
         worker.on("message", (message) => {
           if (message.status) {
-            res.status(200).json({ response: true, payload: message.payload });
+            res.status(200).json({
+              response: true,
+              payload: { worth: message.payload, list },
+            });
           }
         });
       } catch (error) {

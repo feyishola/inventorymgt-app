@@ -18,6 +18,7 @@ class SalesController {
 
   async getAllSalesRecords() {
     const result = await salesModel.find();
+
     return result;
   }
 

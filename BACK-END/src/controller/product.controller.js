@@ -4,6 +4,8 @@ class ProductController {
   async createProducts(
     productName,
     productAmount,
+    initialStockQuantity,
+    currentStockQuantity,
     productCategory,
     productImg,
     productQrCode,
@@ -19,6 +21,8 @@ class ProductController {
     const newProduct = new productModel({
       productName,
       productAmount,
+      initialStockQuantity,
+      currentStockQuantity,
       productCategory,
       productImg,
       productQrCode,

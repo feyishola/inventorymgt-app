@@ -9,7 +9,7 @@ const productSchema = new Schema({
   productAmount: { type: Number, required: true },
   initialStockQuantity: { type: Number, required: true },
   currentStockQuantity: { type: Number, required: true },
-  lastRestockDate: { type: Date },
+  lastRestockDate: { type: Date, default: Date.now },
   productCategory: { type: String, required: true },
   productDesc: { type: String },
   productImg: { type: String, required: true },

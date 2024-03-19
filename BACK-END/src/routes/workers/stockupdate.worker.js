@@ -1,5 +1,4 @@
 const { parentPort, workerData } = require("worker_threads");
-const stockController = require("../../controller/stock.controller");
 const productController = require("../../controller/product.controller");
 require("../../connections/mongodb.con")();
 
