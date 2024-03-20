@@ -86,14 +86,24 @@ module.exports = () => {
     async (req, res) => {
       try {
         const id = req.params.id;
-        const { productAmount, productDesc, productImg, productQuantity } =
-          req.body;
-        const response = await ProductController.updateProduct(
-          id,
+        const {
+          productName,
           productAmount,
           productDesc,
           productImg,
-          productQuantity
+          productQuantity,
+          initialStockQuantity,
+          currentStockQuantity,
+        } = req.body;
+        const response = await ProductController.updateProduct(
+          id,
+          productName,
+          productAmount,
+          productDesc,
+          productImg,
+          productQuantity,
+          initialStockQuantity,
+          currentStockQuantity
         );
         res
           .status(200)

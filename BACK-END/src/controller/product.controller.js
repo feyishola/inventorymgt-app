@@ -48,14 +48,27 @@ class ProductController {
 
   async updateProduct(
     id,
+    productName,
     productAmount,
     productDesc,
     productImg,
-    productQuantity
+    productQuantity,
+    initialStockQuantity,
+    currentStockQuantity
   ) {
     const result = await productModel.findByIdAndUpdate(
       { _id: id },
-      { $set: { productAmount, productDesc, productImg, productQuantity } }
+      {
+        $set: {
+          productName,
+          productAmount,
+          productDesc,
+          productImg,
+          productQuantity,
+          initialStockQuantity,
+          currentStockQuantity,
+        },
+      }
     );
     return result;
   }
